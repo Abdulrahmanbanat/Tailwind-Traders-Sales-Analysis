@@ -29,57 +29,22 @@ It demonstrates the full workflow of preparing, cleaning, analyzing, and visuali
 
 ---
 
-## Step 3: Create Calendar Table
-Created a Calendar Table using DAX to support time intelligence calculations.
+### Step 3: Create Calendar Table
+A calendar table was created using DAX to support time-based data analysis, including:
 
-```DAX
-CalendarTable =
-ADDCOLUMNS(
-    CALENDAR(DATE(2020, 1, 1), DATE(2023, 12, 31)),
-    "Year", YEAR([Date]),
-    "Month Number", MONTH([Date]),
-    "Month", FORMAT([Date], "MMMM"),
-    "Quarter", QUARTER([Date]),
-    "Weekday", WEEKDAY([Date]),
-    "Day", DAY([Date])
-)
-Then:
-
-- Established a relationship between the **Calendar Table** and the **Sales Table** using the Date column.
-- Verified the relationship direction is **one-to-many (1:*)**.
-
+- Creating a table with dates from **2020 to 2023**.
+- Adding columns for **Year**, **Month**, **Quarter**, and **Weekday**.
+- Linking the calendar table to the **Sales** table via the **Date** column.
+- Validating the relationship between the tables.
 ---
 
-## Step 4: Create DAX Measures
+### Step 4: Create DAX Measures
+DAX measures were created to calculate key performance indicators:
 
-Added calculated measures for deeper insights:
-
-**Yearly Profit Margin**
-
-Yearly Profit Margin = 
-DIVIDE(
-    SUM('Sales in USD'[Net Revenue USD]),
-    SUM('Sales in USD'[Gross Revenue USD])
-)
-
-**Quarterly Profit Margin**
-
-Quarterly Profit Margin = 
-CALCULATE(
-[Yearly Profit Margin],
-DATESQTD('CalendarTable'[Date]))
-
-
-**YTD Profit Margin**
-YTD Profit Margin = 
-DIVIDE(
-    TOTALYTD(SUM('Sales in USD'[Net Revenue USD]), 'CalendarTable'[Date]),
-    TOTALYTD(SUM('Sales in USD'[Gross Revenue USD]), 'CalendarTable'[Date])
-)
-
-
-**Median Sales**
-Median Sales = MEDIAN('Sales in USD'[Gross Revenue USD])
+- **Yearly Profit Margin** – Ratio of net revenue to gross revenue.
+- **Quarterly Profit Margin** – Calculates the profit margin for the current quarter.
+- **Year-to-Date Profit Margin** – Tracks cumulative performance for the year.
+- **Median Sales** – Calculates the median value of sales.
 
 
 ---
